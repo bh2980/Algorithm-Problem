@@ -1,0 +1,21 @@
+def solution(id_list, report, k):
+    user_num = len(id_list)
+    user_dict = dict()
+
+    singo_matrix = [[0] * user_num for i in range(user_num)]
+
+    for i, id_ in enumerate(id_list):
+        user_dict[id_] = i
+
+    for singo in report: 
+        singoer, singoee = singo.split()
+        singo_matrix[user_dict[singoee]][user_dict[singoer]] = 1
+
+    mail_send = [0] * user_num
+
+    for index in range(len(singo_matrix)):
+        if sum(singo_matrix[index]) >= k:
+            for index2 in range(len(singo_matrix[index])):
+                mail_send[index2] += singo_matrix[index][index2]
+
+    return mail_send
