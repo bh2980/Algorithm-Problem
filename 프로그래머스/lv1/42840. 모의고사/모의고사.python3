@@ -1,0 +1,31 @@
+def solution(answers):
+    userA = [1, 2, 3, 4, 5]
+    userB = [2, 1, 2, 3, 2, 4, 2, 5]
+    userC = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    
+    scoreA = 0
+    scoreB = 0
+    scoreC = 0
+    
+    scores = dict([(1, scoreA), (2, scoreB), (3, scoreC)])
+    
+    for index in range(len(answers)):
+        if answers[index] == userA[index % 5]:
+            scores[1] += 1
+        
+        if answers[index] == userB[index % 8]:
+            scores[2] += 1
+            
+        if answers[index] == userC[index % 10]:
+            scores[3] += 1
+
+    scores = sorted(scores.items(), key=lambda x:x[1], reverse=True)
+    max_ = max(scores, key=lambda x: x[1])[1]
+    
+    answer = []
+    
+    for user in scores:
+        if user[1] == max_:
+            answer.append(user[0])
+    
+    return answer
