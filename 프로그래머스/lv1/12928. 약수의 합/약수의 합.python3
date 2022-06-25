@@ -1,0 +1,25 @@
+import math
+
+def diviosr(n):
+    divisor_list = []
+    
+    if n == 1:
+        return [1]
+    
+    for i in range(1, int(math.sqrt(n))+1):
+        if n % i == 0:
+            divisor_list.append(i)
+            if i != n//i:
+                divisor_list.append(n//i)
+            
+    return divisor_list
+
+def solution(n):
+    answer = 0
+    
+    print(diviosr(n))
+    
+    for num in diviosr(n):
+        answer += num
+        
+    return answer
