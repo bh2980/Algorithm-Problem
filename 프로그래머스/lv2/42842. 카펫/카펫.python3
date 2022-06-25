@@ -1,0 +1,16 @@
+def solution(brown, yellow):
+    import math
+    #yellow의 약수 중 각 +2하고 -4 한게 brown과 같은지 확인
+    
+    divisors = []
+    
+    for i in range(1, int(math.sqrt(yellow) + 1)):
+        if yellow % i == 0:
+            divisors.append([yellow // i, i])
+    
+    for d in divisors:
+        width = d[0] + 2
+        height = d[1] + 2
+        
+        if brown == width * 2 + height * 2 - 4:
+            return [width, height]
