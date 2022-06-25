@@ -1,0 +1,21 @@
+def solution(priorities, location):
+    task_list = []
+    
+    for item in enumerate(priorities):
+        task_list.append(item)
+        
+    my_task = task_list[location]
+        
+    count = 0
+        
+    while True:
+        task = task_list.pop(0)
+        
+        if len(task_list) > 0 and task[1] < max(task_list, key=lambda x:x[1])[1]:
+            task_list.append(task)
+        else:
+            count += 1
+            if task == my_task:
+                break
+
+    return count
