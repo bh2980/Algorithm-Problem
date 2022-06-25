@@ -1,0 +1,10 @@
+def solution(n):
+    pibo = [0] * (n+1)
+    
+    pibo[0] = 0
+    pibo[1] = 1
+    
+    for index in range(2, n+1):
+        pibo[index] = pibo[index-2] + pibo[index-1]
+        
+    return pibo[n] % 1234567
