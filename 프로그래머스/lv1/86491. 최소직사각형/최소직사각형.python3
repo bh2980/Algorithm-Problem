@@ -1,0 +1,13 @@
+def solution(sizes):
+    width = []
+    height = []
+    
+    for card in sizes:
+        if card[0] < card[1]:
+            width.append(card[1])
+            height.append(card[0])
+        else:
+            width.append(card[0])
+            height.append(card[1])
+    
+    return max(width) * max(height)
