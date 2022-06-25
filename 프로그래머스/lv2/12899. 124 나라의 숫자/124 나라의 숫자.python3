@@ -1,0 +1,24 @@
+def solution(n):
+    answer = []
+    
+    #3진법을 기반으로
+    #나머지가 1이면 1
+    #나머지가 2이면 2
+    #나머지가 0이면 몫 - 1 나머지 4
+    
+    n = int(n)
+    
+    while n >= 3:
+        rest = n % 3
+        
+        if rest != 0:
+            answer.append(str(rest))
+            n //= 3
+        else:
+            answer.append('4')
+            n = n // 3-1
+    
+    if n > 0:
+        answer.append(str(n))
+            
+    return ''.join(reversed(answer))
