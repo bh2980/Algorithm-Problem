@@ -1,0 +1,13 @@
+def solution(arr, divisor):
+    answer = []
+    
+    arr.sort(reverse=True)
+    
+    for number in arr:
+        if number < divisor:
+            break
+        
+        if number % divisor == 0:
+            answer.append(number)
+            
+    return sorted(answer) or [-1]
