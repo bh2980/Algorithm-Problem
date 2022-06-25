@@ -1,0 +1,22 @@
+def plus_minus(current, array, index, target):
+    plus_node = current + array[index]
+    minus_node = current - array[index]
+
+    if index == len(array) - 1:
+        count = 0
+        if plus_node == target:
+            count += 1
+
+        if minus_node == target:
+            count += 1
+
+        return count
+
+    index += 1
+
+    return plus_minus(plus_node, array, index, target) + plus_minus(minus_node, array, index, target)
+
+def solution(numbers, target):
+    answer = plus_minus(0, numbers, 0, target)
+
+    return answer
