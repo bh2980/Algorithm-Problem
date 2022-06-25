@@ -1,0 +1,56 @@
+def rotate(arr, TL, BR, R, bound_length):
+    x1, y1 = TL
+    x2, y2 = BR
+
+    x = x1
+    y = y1
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    index = 0
+
+    bound_list = []
+
+    for _ in range(bound_length):
+        if x == x2 and y == y1:
+            index+=1
+        elif x == x2 and y == y2:
+            index+=1
+        elif x == x1 and y == y2:
+            index+=1
+
+        bound_list.append(arr[x][y])
+
+        x += dx[index]
+        y += dy[index]
+
+    bound_list = bound_list[-R :] + bound_list[: -R]
+
+    x = x1
+    y = y1
+    index = 0
+
+    for element in bound_list:
+        if x == x2 and y == y1:
+            index+=1
+        elif x == x2 and y == y2:
+            index+=1
+        elif x == x1 and y == y2:
+            index+=1
+
+        arr[x][y] = element
+
+        x += dx[index]
+        y += dy[index]
+        
+    return min(bound_list)
+
+def solution(rows, columns, queries):
+    answer = []
+    arr = [[columns * row + col + 1 for col in range(columns)] for row in range(rows)]
+    
+    for que in queries:
+        s_x, s_y, e_x, e_y = que
+        bound_length = (e_x - s_x + 1) * 2 +  (e_y - s_y + 1) * 2 - 4
+        answer.append(rotate(arr, [s_x-1, s_y-1], [e_x-1, e_y-1], 1, bound_length))
+    
+    return answer
