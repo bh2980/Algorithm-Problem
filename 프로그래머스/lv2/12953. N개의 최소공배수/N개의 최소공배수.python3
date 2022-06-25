@@ -1,0 +1,21 @@
+def gcd(A, B):
+    divid_A = []
+    for divid in range(1, int(A**0.5) + 1):
+        if A % divid == 0:
+            divid_A.append(divid)
+            if divid != A // divid:
+                divid_A.append(A // divid)
+    
+    divid_A.sort(reverse=True)
+    
+    for divid in divid_A:
+        if B % divid == 0:
+            return divid
+
+def solution(arr):
+    L = 1
+    for num in arr:
+        G = gcd(L, num)
+        L = (L // G) * num
+        
+    return L
