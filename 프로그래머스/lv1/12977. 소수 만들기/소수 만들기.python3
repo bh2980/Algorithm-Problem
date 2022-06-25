@@ -1,0 +1,23 @@
+from itertools import combinations
+from math import sqrt
+
+def isPrime(num):
+    for divisor in range(2, int(sqrt(num)) + 1) :
+        if num % divisor == 0:
+            return False
+    
+    return True
+
+def solution(nums):
+    count = 0
+
+    combi_list = combinations(nums, 3)
+    
+    for combi in combi_list:
+        if sum(combi) % 2 == 0:
+            continue
+        
+        if isPrime(sum(combi)):
+            count +=1
+
+    return count
