@@ -1,0 +1,46 @@
+def manhatanDis(a, b):
+    mDis = 0
+    
+    for index in range(len(a)):
+        mDis += (abs(a[index] - b[index]))
+        
+    return mDis
+
+def solution(numbers, hand):
+    answer = []
+    goal = []
+    LEFT = 'L'
+    RIGHT = 'R'
+    
+    left = [3, 0]
+    right = [3, 2]
+    
+    for num in numbers:
+        num -= 1
+        
+        if num % 3 == 0:
+            left = [num // 3, num % 3]
+            answer.append(LEFT)
+        elif num >= 0 and num % 3 == 2:
+            right = [num // 3, num % 3]
+            answer.append(RIGHT)
+        else:
+            goal = [num // 3, num % 3] if num >= 0 else [3, 1]     
+            leftDis = manhatanDis(goal, left)
+            rightDis = manhatanDis(goal, right)
+            
+            if leftDis < rightDis:
+                left = goal.copy()
+                answer.append(LEFT)    
+            elif rightDis < leftDis:
+                right = goal.copy()
+                answer.append(RIGHT)
+            else:
+                if hand == "left":
+                    left = goal.copy()
+                    answer.append(LEFT)
+                else:
+                    right = goal.copy()
+                    answer.append(RIGHT)
+                    
+    return ''.join(answer)
