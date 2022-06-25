@@ -1,0 +1,31 @@
+stack = [] #퀸의 좌표를 넣는 공간.
+answer = 0 #방법의 수
+
+def check(location):
+    mx, my = location
+
+    for queen in stack:
+        x, y = queen
+        
+        if mx == x or my == y:
+            return False
+        
+        if abs((mx - x)/(my-y)) == 1:
+            return False
+        
+    return True
+        
+def solution(n, current = 0):#현재 라인을 받는다.
+    global answer
+    
+    if current == n:
+        answer += 1
+        return
+    
+    for col in range(n):
+        if check([current, col]):
+            stack.append([current, col])
+            solution(n, current+1)
+            stack.pop()
+    
+    return answer
