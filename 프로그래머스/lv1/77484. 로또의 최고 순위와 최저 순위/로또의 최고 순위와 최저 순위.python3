@@ -1,0 +1,23 @@
+def solution(lottos, win_nums):
+    
+    from collections import Counter
+    
+    zero = 0
+    correct = 0
+
+    for my_index in range(6):
+        if lottos[my_index] == 0:
+            zero += 1
+            continue
+            
+        for ans_index in range(6):
+            if win_nums[ans_index] == lottos[my_index] :
+                correct += 1
+                break
+
+    hightest = 7 - correct - zero if correct > 1 or zero > 0 else 6
+    wrongest = 7 - correct if correct > 1 else 6
+
+    answer = [hightest, wrongest]
+    
+    return answer
