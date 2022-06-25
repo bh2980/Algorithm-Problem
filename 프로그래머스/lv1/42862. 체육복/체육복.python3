@@ -1,0 +1,20 @@
+def solution(n, lost, reserve):
+    lost = set(lost)
+    reserve = set(reserve)
+    
+    real_lost = lost - reserve
+    real_reserve = reserve - lost
+    
+    avail_stu = n - len(real_lost)
+    
+    for lostman in real_lost:
+        if lostman - 1 in real_reserve:
+            real_reserve.remove(lostman - 1)
+            avail_stu += 1
+            continue
+        
+        if lostman + 1 in real_reserve:
+            real_reserve.remove(lostman + 1)
+            avail_stu += 1
+            
+    return avail_stu
