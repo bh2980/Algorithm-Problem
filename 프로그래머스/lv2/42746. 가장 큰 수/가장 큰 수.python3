@@ -1,0 +1,20 @@
+def solution(numbers):
+    numbers = list(map(str, numbers))
+    number_dict = []
+    
+    for number in numbers:
+        number_dict.append([number, number])
+    
+    for index in range(len(numbers)):
+        count = 0
+        while len(number_dict[index][1]) < 4 :
+            number_dict[index][1] += number_dict[index][1][count]
+            count += 1
+            
+    number_dict.sort(key=lambda x: x[1], reverse=True)
+            
+    answer = ''
+    for item in number_dict:
+        answer += item[0]
+    
+    return str(int(answer))
