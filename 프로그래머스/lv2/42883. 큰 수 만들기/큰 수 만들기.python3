@@ -1,0 +1,22 @@
+def solution(number, k):
+    answer = ''
+    start = 0
+
+    for end in range(k+1, len(number)+1):
+        max_val = '/'
+        max_index = -1
+
+        for index in range(start, end):
+            if number[index] == '9':
+                max_val = '9'
+                max_index = index
+                break
+
+            if max_val < number[index]:
+                max_val = number[index]
+                max_index = index
+
+        answer += max_val
+        start = max_index + 1
+
+    return answer
