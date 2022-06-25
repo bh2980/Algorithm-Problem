@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+Select NAME
+FROM (SELECT *
+FROM ANIMAL_INS
+ORDER BY DATETIME)
+Where rownum < 2;
