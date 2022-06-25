@@ -1,0 +1,37 @@
+#각 스택 덩어리가 n개씩 있고,
+#n번째 스택에서 1개를 뽑음 (n-1) -> pop
+#pop 한 것 저장
+#바구니도 스택 -> 젤 위에꺼 뭔지 봄
+#pop 한거랑 같으면 바구니에서 pop하고 count++
+#아니면 저장
+
+from collections import deque
+
+def solution(board, moves):
+    basket = deque([])
+    stacks = []
+    count = 0
+    
+    for j in range(len(board[0])):
+        list = []
+        for i in range(len(board)):
+            if board[i][j] != 0:
+                list.append(board[i][j])
+            
+        stacks.append(deque(reversed(list)))
+    
+    for move in moves:
+        if len(stacks[move-1]) > 0:
+            pop_item = stacks[move-1].pop()
+        
+            if len(basket) == 0:
+                basket.append(pop_item)
+            else:
+                print(pop_item, basket[-1])
+                if basket[-1] == pop_item:
+                    basket.pop()
+                    count += 2
+                else:
+                    basket.append(pop_item)
+        
+    return count
