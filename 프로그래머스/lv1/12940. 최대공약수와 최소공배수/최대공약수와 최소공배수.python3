@@ -1,0 +1,7 @@
+import math
+
+def solution(n, m):
+    G = math.gcd(n, m)
+    
+    answer = [G, (n/G) * m]
+    return answer
