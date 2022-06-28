@@ -31,37 +31,26 @@ def r0PreSetSeat(number, students, _class, empty_list, n):
       
   if len(r0_set) > 0:#r0_set에 값이 있다면 r0_set return
     return r0_set
-  else:#r0_set에 값이 없다면 None return
+  else:#r0_set에 값이 없다면 empty_list return
     return empty_list
     
 def r1r2MostFriendsEmpty(search_seat, friends, _class):
-  #좋아하는 학생이 상하좌우에 가장 많은 자리 return하는 함수
-  #자리 set을 받고, 상하좌우에 좋아하는 학생의 수를 기준으로 정렬
+  #좋아하는 학생이 상하좌우에 가장 많은 자리이면서 상하좌우에 빈자리가 많은 자리들을 return하는 함수
+  #자리 set을 받고, 상하좌우에 좋아하는 학생의 수, 빈 자리 수를 기준으로 정렬
   #가장 많은 자리들을 return
 
   r1_dict = dict()
-  max_val = -1
 
   for seat in search_seat:
-    r1_dict[seat] = [len(_class[seat].around & friends), _class[seat].empty]
-    if max_val < r1_dict[seat][0]:
-      max_val = r1_dict[seat][0]
-
-  r1_sort = sorted(r1_dict.items(), key=lambda x:x[1], reverse=True)
-  r1_set = set()
-
-  max_friends = r1_sort[0][1][0]
-  max_empty = r1_sort[0][1][1]
-  
-  for key, value in r1_sort:
-    friends, empty = value
-
-    if friends == max_friends and empty == max_empty:
-      r1_set.add(key)
+    near_friends = len(_class[seat].around & friends)
+    near_empty = _class[seat].empty
+    if (near_friends, near_empty) in r1_dict:
+      r1_dict[(near_friends, near_empty)].append(seat)
     else:
-      break
+      r1_dict[(near_friends, near_empty)] = [seat]
 
-  return r1_set
+  r1_sort = sorted(r1_dict.items(), key=lambda x:x[0], reverse=True)
+  return set(r1_sort[0][1])
 
 def r3RowCol(search_row_col):
   #자리를 받아서 행->열 순으로 정렬
@@ -70,7 +59,6 @@ def r3RowCol(search_row_col):
 
 def updateSeat(number, seat, students, _class, empty_list, n):
   #students, _class, empty_list 업데이트 하는 함수
-  
   students[number].seat = seat
   _class[seat].student = number
   
@@ -88,6 +76,7 @@ def updateSeat(number, seat, students, _class, empty_list, n):
       _class[(nx, ny)].around.add(number)
 
 def calcSatisfaction(students, _class, n):
+  #만족도 계산 함수
   dx = [-1, 0, 0, 1]
   dy = [0, -1, 1, 0]
   satisfaction = 0
@@ -118,6 +107,7 @@ def calcSatisfaction(students, _class, n):
   return satisfaction
 
 def solution():
+  #Setting
   n = int(input())
   _class = dict([[(i+1, j+1), Seat((i+1, j+1))] for j in range(n) for i in range(n)])
   empty_list = set((i+1, j+1) for j in range(n) for i in range(n))
