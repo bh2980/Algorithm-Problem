@@ -1,0 +1,25 @@
+def solution(n, computers):
+    #BFS
+    visited = [False for _ in range(n)]
+    
+    count = 0
+    stack = []
+    
+    for index in range(n):
+        if not visited[index]:
+            count += 1
+            stack.append(index)
+        
+        while stack: # stack이 빌 때까지 돌린다. stack이 비었으면 하나의 네트워크가 끝난 것.
+            i = stack.pop()#i번째 열을
+            visited[i] = True #방문체크
+            
+            for j in range(n):#모두 탐색하면서
+                if i != j and computers[i][j] == 1:#같지 않고 1인 것이 있으면
+                    stack.append(j)#stack에 넣는다.
+
+                    #방문 체크
+                    computers[i][j] = -1
+                    computers[j][i] = -1
+                
+    return count
