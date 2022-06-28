@@ -1,3 +1,5 @@
+from collections import deque
+
 def calcDistance(x, y):
     count = 0
     
@@ -11,15 +13,15 @@ def solution(begin, target, words):
     #BFS
     
     visited = [False for _ in range(len(words))] #방문 체크 배열
-    stack = [begin] #word를 넣는 stack
-    stack_len = len(stack)
-    count = 0 # count를 어떻게 셀까
+    queue = deque([begin]) #word를 넣는 queue
+    len_queue = len(queue)
+    count = 0
     find = False
     
-    while stack: #stack이 비었으면 return 0
-        word = stack.pop()
-        stack_len -= 1
-        
+    while queue: #stack이 비었으면 return 0
+        word = queue.popleft()
+        len_queue -= 1
+
         if word == target:
             find = True
             break
@@ -28,10 +30,10 @@ def solution(begin, target, words):
             if not visited[index]:
                 if calcDistance(word, words[index]) == 1:
                     visited[index] = True
-                    stack.append(words[index])
+                    queue.append(words[index])
         
-        if stack_len == 0:
+        if len_queue == 0:
             count += 1
-            stack_len = len(stack)
+            len_queue = len(queue)
                 
     return count if find else 0
