@@ -3,8 +3,13 @@ stack = []
 def DFS(current, tickets, level, n):
     global stack
     
-    if level >= n:#n개되면 stack return
+    if level >= n:
+        #n개되면 stack return
         return stack
+    
+    if current not in tickets:
+        #level이 n보다 작은 데 막다른 공항이면, 실패
+        return False
     
     for arrive in tickets[current].keys():#도착지를 가져와서
         if tickets[current][arrive] != 0:#도착지로 향하는 티켓이 남아 있다면(0개가 아니면)
@@ -25,9 +30,6 @@ def makeDict(tickets):
     
     for depart, arrive in tickets:
         tickets_dict.setdefault(depart, dict())#같은 항공권 존재 가능
-        tickets_dict.setdefault(arrive, dict())
-        #항공권을 다 사용하지 않았는데 막다른 항공권을 받았을 경우를 대비해 
-        #도착지 key 값도 만들어주어야 한다.
                                 
         tickets_dict[depart].setdefault(arrive, 0) #값으로 개수를 넣는다.
         tickets_dict[depart][arrive] += 1
