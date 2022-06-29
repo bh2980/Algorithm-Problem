@@ -10,11 +10,11 @@ def DFS(current, tickets, level, n):
         if tickets[current][arrive] != 0:#도착지로 향하는 티켓이 남아 있다면(0개가 아니면)
             stack.append(arrive)#stack에 넣고
             tickets[current][arrive] -= 1 #항공권 소비
-            
+
             if DFS(arrive, tickets, level + 1, n):
                 #DFS 결과가 stack(True)면 그만하고 return, 도달하지 못해서 False면 밑으로
                 return stack
-            
+
             tickets[current][arrive] += 1 #도달하지 못했으므로 항공권 다시 복구
             stack.pop()#stack에서 제거
             
@@ -26,6 +26,8 @@ def makeDict(tickets):
     for depart, arrive in tickets:
         tickets_dict.setdefault(depart, dict())#같은 항공권 존재 가능
         tickets_dict.setdefault(arrive, dict())
+        #항공권을 다 사용하지 않았는데 막다른 항공권을 받았을 경우를 대비해 
+        #도착지 key 값도 만들어주어야 한다.
                                 
         tickets_dict[depart].setdefault(arrive, 0) #값으로 개수를 넣는다.
         tickets_dict[depart][arrive] += 1
