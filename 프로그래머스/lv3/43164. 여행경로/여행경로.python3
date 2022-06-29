@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 stack = []
 
 def DFS(current, tickets, level, n):
@@ -26,12 +28,9 @@ def DFS(current, tickets, level, n):
     return False
 
 def makeDict(tickets):
-    tickets_dict = dict()
+    tickets_dict = defaultdict(lambda: defaultdict(int))
     
     for depart, arrive in tickets:
-        tickets_dict.setdefault(depart, dict())#같은 항공권 존재 가능
-                                
-        tickets_dict[depart].setdefault(arrive, 0) #값으로 개수를 넣는다.
         tickets_dict[depart][arrive] += 1
         
     for key, value in tickets_dict.items():#내부 사전의 key값에 따라 정렬
