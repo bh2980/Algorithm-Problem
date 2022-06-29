@@ -1,63 +1,28 @@
-BNP_money = int(input())
-BNP_stock = 0
-TIMING_money = BNP_money
-TIMING_stock = 0
+BNP_money, BNP_stock = int(input()), 0
+TIMING_money, TIMING_stock = BNP_money, 0
 
 prices = list(map(int, input().split()))
 
-TIMING_pre_price = prices[0]
-TIMING_pre_condition = '-'
-TIMING_count = 0
-TIMING_buy = False
-TIMING_sell = False
-
-for today_price in prices:
+for index in range(14):
+  today_price = prices[index]
   #BNP
   quo, left = divmod(BNP_money, today_price)
   if quo > 0:
     BNP_stock += quo
     BNP_money = left
 
+  if index >= 3:
   #TIMING
-  if TIMING_pre_price == today_price:
-    TIMING_pre_condition = '-'
-    TIMING_count = 0
-  else:
-    if TIMING_pre_price < today_price:
-      if TIMING_pre_condition == '<':
-        TIMING_count += 1
-      else:
-        TIMING_count = 1
-        
-      TIMING_pre_price = today_price
-      TIMING_pre_condition = '<'
-    else:
-      if TIMING_pre_condition == '>':
-        TIMING_count += 1
-      else:
-        TIMING_count = 1
-        
-      TIMING_pre_price = today_price
-      TIMING_pre_condition = '>'
+    if prices[index - 3] > prices[index-2] > prices[index - 1] > today_price:
+      quo, left = divmod(TIMING_money, today_price)
+      
+      if quo > 0:
+        TIMING_stock += quo
+        TIMING_money = left
 
-  if TIMING_count >= 3:
-    if TIMING_pre_condition == '>':
-      TIMING_buy = True
-    elif TIMING_pre_condition == '<':
-      TIMING_sell = True
-
-  if TIMING_buy:
-    TIMING_buy = False
-    
-    quo, left = divmod(TIMING_money, today_price)
-    if quo > 0:
-      TIMING_stock += quo
-      TIMING_money = left
-
-  if TIMING_sell:
-    TIMING_sell = False
-    TIMING_money += today_price * TIMING_stock
-    TIMING_stock = 0
+    elif prices[index - 3] < prices[index-2] < prices[index - 1] < today_price:
+      TIMING_money += today_price * TIMING_stock
+      TIMING_stock = 0
 
 BNP_money += prices[-1] * BNP_stock
 TIMING_money += prices[-1] * TIMING_stock
