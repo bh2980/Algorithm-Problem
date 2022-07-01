@@ -1,5 +1,3 @@
-from itertools import combinations
-
 def solution(skill, skill_trees):
     skill_set = set([char for char in skill])
     count = 0
