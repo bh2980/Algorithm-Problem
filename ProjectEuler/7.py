@@ -28,6 +28,5 @@ while count != 10001:
         count += 1
         prime = number
         print(count, number)
-        # time.sleep(0.5)
 
 print(count, number)
