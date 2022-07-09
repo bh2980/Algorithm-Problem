@@ -1,5 +1,3 @@
-import math
-
 def calcWay(start, end, map):
   s_x, s_y = start
   e_x, e_y = end
