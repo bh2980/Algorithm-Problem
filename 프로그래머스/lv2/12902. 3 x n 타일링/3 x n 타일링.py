@@ -1,5 +1,4 @@
 def solution(n):
-    #f(n) = 3 * f(n-2) + 2 * f(n-4) + f(n-6) * 1 + 1
     n //= 2
     
     dp = [1 for _ in range(n+1)]
@@ -12,6 +11,6 @@ def solution(n):
         pass
     
     for i in range(4, n + 1):
-        dp[i] = 3 * dp[i-1] + 2 * sum(dp[:i-1])
+        dp[i] = (3 * dp[i-1] + 2 * sum(dp[:i-1])) % 1000000007
     
-    return dp[n] % 1000000007
+    return dp[n]
