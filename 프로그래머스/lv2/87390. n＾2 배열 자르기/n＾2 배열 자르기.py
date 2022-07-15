@@ -6,11 +6,8 @@ def solution(n, left, right):
     num_arr = []
     
     for i in range(first, last+1):
-        for _ in range(i):
-            num_arr.append(i)
-        
-        for j in range(i+1, n+1):
-            num_arr.append(j)
+        for j in range(1, n+1):
+            num_arr.append(i if j < i else j)
 
-    answer = num_arr[left % n : right - (left // n) * n +1]
+    answer = num_arr[left % n : right - (left // n) * n + 1]
     return answer
