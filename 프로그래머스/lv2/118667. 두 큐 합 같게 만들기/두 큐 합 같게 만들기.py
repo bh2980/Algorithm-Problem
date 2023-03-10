@@ -7,7 +7,7 @@ def solution(queue1, queue2):
     dequeue1 = deque(queue1)
     dequeue2 = deque(queue2)
     
-    while sum1 != sum2 and count < len(queue1) * 4:
+    while sum1 != sum2 and count < len(queue1) * 3 - 1:
         if sum1 > sum2:
             move_element = dequeue1.popleft()
             dequeue2.append(move_element)
