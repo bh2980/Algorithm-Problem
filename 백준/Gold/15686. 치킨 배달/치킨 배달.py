@@ -4,27 +4,19 @@ def makePointToKey(r, c):
 def makeKeyToPoint(key):
     return map(int, key.split('-'))
 
-# def combinations(list, count):
-#     visited = [False] * len(list)
-#     combi_list = []
-# 
-#     def makeCombinations(list, count, temp_combi = []):
-#         if count == 0:
-#             combi_list.append([i for i in temp_combi])
-#             return
-# 
-#         for i in range(len(list)):
-#             if not visited[i]:
-#                 temp_combi.append(list[i])
-#                 visited[i] = True
-#                 makeCombinations(list, count - 1)
-#                 temp_combi.pop()
-#                 visited[i] = False
-# 
-#     makeCombinations(list, count)
-# 
-#     return combi_list
-from itertools import combinations
+def combinations(arr, n):
+    result = []
+    if n == 0:
+        return [[]]
+    if n == 1:
+        result = [[i] for i in arr]
+        return result
+    for i in range(len(arr)):
+        elem = arr[i]
+        c = combinations(arr[i+1:], n-1)
+        for rest in c:
+            result.append([elem]+rest)
+    return result
 
 def calcManhattanDis(p1, p2):
     ar, ac = p1
