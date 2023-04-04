@@ -4,17 +4,15 @@ def makePointToKey(r, c):
 def makeKeyToPoint(key):
     return map(int, key.split('-'))
 
-from itertools import combinations
-
 # def combinations(list, count):
 #     visited = [False] * len(list)
 #     combi_list = []
-#
+# 
 #     def makeCombinations(list, count, temp_combi = []):
 #         if count == 0:
 #             combi_list.append([i for i in temp_combi])
 #             return
-#
+# 
 #         for i in range(len(list)):
 #             if not visited[i]:
 #                 temp_combi.append(list[i])
@@ -22,10 +20,11 @@ from itertools import combinations
 #                 makeCombinations(list, count - 1)
 #                 temp_combi.pop()
 #                 visited[i] = False
-#
+# 
 #     makeCombinations(list, count)
-#
+# 
 #     return combi_list
+from itertools import combinations
 
 def calcManhattanDis(p1, p2):
     ar, ac = p1
@@ -58,28 +57,27 @@ def solution(n, m, city_map):
 
             homeList[key][makePointToKey(cr, cc)] = calcManhattanDis((cr, cc), (hr, hc))
 
-    min_dis = 9999999
+    min_dis = float("inf")
 
     # 치킨집의 조합을 만든다.
-    for i in range(1, m + 1):
-        combi_list = combinations(chickenList, i)
+    combi_list = combinations(chickenList, m)
 
-        for combi in combi_list:
-            acc_dis = 0
+    for combi in combi_list:
+        acc_dis = 0
 
-            for value in homeList.values():
-                each_min_dis = 9999999
+        for value in homeList.values():
+            each_min_dis = float("inf")
 
-                for point in combi:
-                    cr, cc = point
+            for point in combi:
+                cr, cc = point
 
-                    if value[makePointToKey(cr, cc)] < each_min_dis:
-                        each_min_dis = value[makePointToKey(cr, cc)]
+                if value[makePointToKey(cr, cc)] < each_min_dis:
+                    each_min_dis = value[makePointToKey(cr, cc)]
 
-                acc_dis += each_min_dis
+            acc_dis += each_min_dis
 
-            if acc_dis < min_dis:
-                min_dis = acc_dis
+        if acc_dis < min_dis:
+            min_dis = acc_dis
 
     return min_dis
 
