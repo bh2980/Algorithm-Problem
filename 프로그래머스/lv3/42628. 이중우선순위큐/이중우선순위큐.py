@@ -6,11 +6,12 @@ DELETE = 'D'
 DELETE_MAX = 1
 DELETE_MIN = -1
 
+
 class Node:
     def __init__(self, value):
         self.value = value
         self.valid = True
-        
+
     def __lt__(self, other):
         if self.value >= other.value:
             return True
@@ -19,85 +20,82 @@ class Node:
 
 def solution(operations):
     answer = []
-    
+
     min_heap = []
     max_heap = []
-    try:
-        # operation 실행
-        for operation in operations:
-            print(f'최소힙 길이 : {len(min_heap)} / 최대힙 길이 : {len(max_heap)}')
 
-            oper, num = operation.split()
-            num = int(num)
-            
+    # operation 실행
+    for operation in operations:
+        print(f'최소힙 길이 : {len(min_heap)} / 최대힙 길이 : {len(max_heap)}')
 
-            if oper == INSERT:
-                #삽입 시, Node를 생성해서, min, max 힙에 넣는다.
-                new_node = Node(num)
+        oper, num = operation.split()
+        num = int(num)
 
-                heappush(min_heap, (num, new_node))
-                heappush(max_heap, (-num, new_node))
-                
-                print(f'{num} 삽입')
-            else: # oper == DELETE
-                print(f'{"최댓값" if num == DELETE_MAX else "최솟값"} 삭제을 삭제해보자')
-                if num == DELETE_MAX:
-                    # valid한 노드를 꺼낼 때까지 반복한다.
-                        # heap의 길이가 0보다 클 동안
+        if oper == INSERT:
+            # 삽입 시, Node를 생성해서, min, max 힙에 넣는다.
+            new_node = Node(num)
 
-                    while len(max_heap) > 0:
-                        order, pop_node = heappop(max_heap)
+            heappush(min_heap, (num, new_node))
+            heappush(max_heap, (-num, new_node))
 
-                        print(f'값 : {pop_node.value} / 유효 : {pop_node.valid}')
+            print(f'{num} 삽입')
+        else:  # oper == DELETE
+            print(f'{"최댓값" if num == DELETE_MAX else "최솟값"} 삭제을 삭제해보자')
+            if num == DELETE_MAX:
+                # valid한 노드를 꺼낼 때까지 반복한다.
+                # heap의 길이가 0보다 클 동안
 
-                        if pop_node.valid:
-                            #valid하다면, invalid로 바꾼다.
-                            pop_node.valid = False
-                            print(f'최댓값 {pop_node.value} 삭제')
+                while len(max_heap) > 0:
+                    order, pop_node = heappop(max_heap)
 
-                            break
-                elif num == DELETE_MIN:
-                    while len(min_heap) > 0:
-                        order, pop_node = heappop(min_heap)
+                    print(f'값 : {pop_node.value} / 유효 : {pop_node.valid}')
 
-                        print(f'값 : {pop_node.value} / 유효 : {pop_node.valid}')
+                    if pop_node.valid:
+                        # valid하다면, invalid로 바꾼다.
+                        pop_node.valid = False
+                        print(f'최댓값 {pop_node.value} 삭제')
 
-                        if pop_node.valid:
-                            pop_node.valid = False
+                        break
+            elif num == DELETE_MIN:
+                while len(min_heap) > 0:
+                    order, pop_node = heappop(min_heap)
 
-                            print(f'최솟값 {pop_node.value} 삭제')
+                    print(f'값 : {pop_node.value} / 유효 : {pop_node.valid}')
 
-                            break
-                            
-            print()
+                    if pop_node.valid:
+                        pop_node.valid = False
 
-        # answer 갱신
+                        print(f'최솟값 {pop_node.value} 삭제')
 
-        # 최댓값 추가
-            # while로 빼면서 valid한 값이 나오면 추가
-            # 최솟값이 있다면 무조건 최댓값도 있음(같을수도)
+                        break
 
-        while len(max_heap) > 0:
-            order, pop_node = heappop(max_heap)
+        print()
 
-            if pop_node.valid and len(answer) == 0:
-                answer.append(pop_node.value)
-                break
+    # answer 갱신
 
-        if len(answer) == 0:
-            return [0, 0]
+    # 최댓값 추가
+    # while로 빼면서 valid한 값이 나오면 추가
+    # 최솟값이 있다면 무조건 최댓값도 있음(같을수도)
 
-        # 최솟값 추가
-            # while로 빼면서 valid한 값이 나오면 추가
-            # 만약에 없으면, return [0, 0]
+    while len(max_heap) > 0:
+        order, pop_node = heappop(max_heap)
 
-        while len(min_heap) > 0:
-            order, pop_node = heappop(min_heap)
+        if pop_node.valid and len(answer) == 0:
+            answer.append(pop_node.value)
+            break
 
-            if pop_node.valid:
-                answer.append(pop_node.value)
-                break
-    except:
-        return
-    
+    if len(answer) == 0:
+        return [0, 0]
+
+    # 최솟값 추가
+    # while로 빼면서 valid한 값이 나오면 추가
+    # 만약에 없으면, return [0, 0]
+
+    while len(min_heap) > 0:
+        order, pop_node = heappop(min_heap)
+
+        if pop_node.valid:
+            answer.append(pop_node.value)
+            break
+
     return answer
