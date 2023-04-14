@@ -7,17 +7,10 @@ DELETE = 'D'
 DELETE_MAX = 1
 DELETE_MIN = -1
 
-
 class Node:
     def __init__(self, value):
         self.value = value
         self.valid = True
-
-    def __lt__(self, other):
-        if self.value >= other.value:
-            return True
-        else:
-            return False
 
 def solution(operations):
     answer = []
@@ -32,10 +25,10 @@ def solution(operations):
 
         if oper == INSERT:
             # 삽입 시, Node를 생성해서, min, max 힙에 넣는다.
-            new_node = Node(num)
-
+            new_node = [num, True]
             heappush(min_heap, (num, new_node))
             heappush(max_heap, (-num, new_node))
+
         else:  # oper == DELETE
             if num == DELETE_MAX:
                 # valid한 노드를 꺼낼 때까지 반복한다.
@@ -43,18 +36,20 @@ def solution(operations):
 
                 while len(max_heap) > 0:
                     order, pop_node = heappop(max_heap)
+                    pop_value, pop_valid = pop_node
 
-                    if pop_node.valid:
+                    if pop_valid:
                         # valid하다면, invalid로 바꾼다.
-                        pop_node.valid = False
+                        pop_node[1] = False
                         break
-                        
             elif num == DELETE_MIN:
                 while len(min_heap) > 0:
                     order, pop_node = heappop(min_heap)
+                    pop_value, pop_valid = pop_node
 
-                    if pop_node.valid:
-                        pop_node.valid = False
+                    if pop_valid:
+                        pop_node[1] = False
+
                         break
 
     # answer 갱신
@@ -65,9 +60,10 @@ def solution(operations):
 
     while len(max_heap) > 0:
         order, pop_node = heappop(max_heap)
+        pop_value, pop_valid = pop_node
 
-        if pop_node.valid and len(answer) == 0:
-            answer.append(pop_node.value)
+        if pop_valid and len(answer) == 0:
+            answer.append(pop_value)
             break
 
     if len(answer) == 0:
@@ -80,18 +76,21 @@ def solution(operations):
 
     while len(min_heap) > 0:
         order, pop_node = heappop(min_heap)
+        pop_value, pop_valid = pop_node
 
-        if pop_node.valid:
-            answer.append(pop_node.value)
+        if pop_valid:
+            answer.append(pop_value)
             break
 
     print(answer[0], answer[1])
-    return
-
+    
 T = int(input())
 
 for _ in range(T):
     n = int(input())
-    operation_list = [sys.stdin.readline().rstrip() for _ in range(n)]
+    operation_list = []
+
+    for _ in range(n):
+        operation_list.append(sys.stdin.readline().rstrip())
 
     solution(operation_list)
