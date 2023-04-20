@@ -1,60 +1,48 @@
 def solution(cap, n, deliveries, pickups):
     answer = 0
- 	
-    # 초기화
-    d_dis = []
-    d_dict = dict()
     
-    p_dis = []
-    p_dict = dict()
-        
-    for distance in range(n):
-        if deliveries[distance] != 0:
-            d_dis.append(distance + 1)
-            d_dict[distance + 1] = deliveries[distance]
-        
-        if pickups[distance] != 0:
-            p_dis.append(distance + 1)
-            p_dict[distance + 1] = pickups[distance]
-    
-    # 이동 거리 계산
-    while len(d_dis) > 0 or len(p_dis) > 0:
-        far_d_distance = 0
-        can_deliver = cap
+    while True:
+        while deliveries and deliveries[-1] == 0:
+            deliveries.pop()
 
-        while can_deliver > 0 and len(d_dis) > 0: # d_dis의 길이가 0보다 클때만 진행
-            farest_distance = d_dis[-1] # 가장 멀리 있는 거리를 불러옴.
+        while pickups and pickups[-1] == 0:
+            pickups.pop()
 
-            if far_d_distance == 0: # 가장 멀리 이동해야하는 거리 저장
-                far_d_distance = farest_distance
+        answer += max(len(deliveries), len(pickups)) * 2
 
-            if can_deliver >= d_dict[farest_distance]:
-                can_deliver -= d_dict[farest_distance]
-                d_dict[farest_distance] = 0
+        if not deliveries and not pickups:
+            break
 
-                d_dis.pop()
+        d_cap = cap
+        i = len(deliveries) - 1
+
+        while deliveries and d_cap > 0:
+            if deliveries[i] >= d_cap:
+                deliveries[i] -= d_cap
+                d_cap = 0
             else:
-                d_dict[farest_distance] -= can_deliver
-                can_deliver = 0
+                d_cap -= deliveries[i]
+                deliveries[i] = 0
 
-        far_p_distance = 0
-        can_pickip = cap
+            i -= 1
 
-        while can_pickip > 0 and len(p_dis) > 0:
-            farest_distance = p_dis[-1]
+            if i < 0:
+                break
 
-            if far_p_distance == 0:
-                far_p_distance = farest_distance
+        p_cap = cap
+        i = len(pickups) - 1
 
-            if can_pickip >= p_dict[farest_distance]:
-                can_pickip -= p_dict[farest_distance]
-                p_dict[farest_distance] = 0
-
-                p_dis.pop()
+        while pickups and p_cap > 0:
+            if pickups[i] >= p_cap:
+                pickups[i] -= p_cap
+                p_cap = 0
             else:
-                p_dict[farest_distance] -= can_pickip
-                can_pickip = 0
+                p_cap -= pickups[i]
+                pickups[i] = 0
 
-        answer += max(far_d_distance, far_p_distance) * 2
+            i -= 1
+
+            if i < 0:
+                break
 
     return answer
