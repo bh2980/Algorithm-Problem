@@ -31,7 +31,6 @@ def solution(n, t, m, p):
     #다 이은 수에서 p번째부터 m개마다 t개를 가져옵니다.
     #2진법부터 16진법까지 모두 구현해야하는거야?
     
-    answer = ''
     number_string = ''
     
     num = 0
@@ -39,10 +38,5 @@ def solution(n, t, m, p):
     while len(number_string) <= t * m + p:
         number_string += nNumber(n, num)
         num += 1
-        
-    start_idx = p - 1
-    for _ in range(t):
-        answer += number_string[start_idx]
-        start_idx += m
     
-    return answer
+    return number_string[p-1:t*m:m]
