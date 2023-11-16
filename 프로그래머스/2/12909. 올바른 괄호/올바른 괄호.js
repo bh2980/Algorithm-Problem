@@ -1,6 +1,8 @@
 function solution(s){
     let stack = 0;
     
+    s = s.replace('()', '')
+    
     for(const char of s){
         if(char === '('){
             stack++;
