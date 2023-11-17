@@ -1,6 +1,8 @@
 let maxCount = 0;
 
 function exploreDFS(dungeons, k, currentIdx = 0, count = 0, visited = new Set()){
+    if(maxCount === dungeons.length) return;
+    
     // console.log(`현재까지 탐사한 던전 ${count}개 / 현재 피로토 ${k}`)
     //재귀적으로 for문을 돌려 탐색함.
     for(let i = 0; i < dungeons.length; i++){
