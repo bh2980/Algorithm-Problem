@@ -1,49 +1,43 @@
-from heapq import heappush, heappop
-from collections import defaultdict
+# BFS
+# DFS
+# 플로이드 워셜
+# 다익스트라
+
+from collections import defaultdict, deque
 
 def solution(N, road, K):
     answer = 0
-    INF = float('inf')
-
-    # 1번 마을에서 다른 모든 마을까지의 최소 거리를 알아야함.
-    # 다익스트라
-    # 그래프 초기화 -> 인접 리스트 dict
-    graph = defaultdict(lambda: [])
+    
+    # 그래프를 선언
+    # BFS로 노드 순회
+    # 최솟값 업데이트
+    # 방문체크를 하면 안된다
+    # 대신 합이 이전 최솟값보다 작은 경우에만 queue에 다시 넣어야한다?
+    
+    graph = defaultdict(lambda: set())
+    nodeCount = 0
     
     for start, end, weight in road:
-        graph[start].append((end, weight))
-        graph[end].append((start, weight))
+        nodeCount = max(start, end, nodeCount)
+        graph[start].add((end, weight))
+        graph[end].add((start, weight)) # 양방향 그래프
+        
+    minDis = [float('inf') for _ in range(nodeCount + 1)]
     
-    # (node, weight)
-    # 최소 거리 배열을 만들어서 업데이트
+    queue = deque([(1, 0)])
     
-    minDis = [INF for _ in range(N + 1)]
-    minDis[1] = 0
-    
-    # heap에 현재 그래프로부터 다른 노드까지의 최소 거리를 뽑는다.
-    
-    heap = []
-    visitedSet = set()
-    
-    heappush(heap, (0, 1))
-    
-    while len(heap) > 0:
-        dis, node = heappop(heap)
+    while len(queue) > 0:
+        currentNode, distance = queue.popleft()
+        
+        if distance < minDis[currentNode]:
+            minDis[currentNode] = distance
             
-        # 방문한 노드라면 pass
-        # 방문하지 않은 노드라면 최소 거리 배열에 값을 업데이트한다
-        # 해당 노드로부터 방문하지 않은 노드로 이어지는 값을 해당 노드까지의 거리를 더해 추가한다.
-        
-        if minDis[node] < dis:
-            continue
-        
-        for end, weight in graph[node]:
-            if dis + weight < minDis[end]:
-                minDis[end] = min(minDis[end], dis + weight)
-                heappush(heap, (minDis[end], end))
+        for child, weight in graph[currentNode]:
+            if weight + distance < minDis[child]:
+                queue.append((child, weight + distance))
                 
-    for idx in range(len(minDis)):
-        if minDis[idx] <= K:
+    for dis in minDis:
+        if(dis <= K):
             answer += 1
 
     return answer
